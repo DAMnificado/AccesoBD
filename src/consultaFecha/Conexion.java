@@ -10,7 +10,6 @@ public class Conexion {
 	
 	private Connection con;
 	
-	
 	public Conexion(String host, String puerto, String user, String pswd) {
 		
 		this.con=conectar(host, puerto, user, pswd);

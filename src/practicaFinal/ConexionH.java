@@ -39,6 +39,7 @@ public class ConexionH {
 	}
 
 }
+
 //Una forma rapida y segura de saber el nombre de las columnas y sus tipos
 //Statement st;
 //ResultSet rs;

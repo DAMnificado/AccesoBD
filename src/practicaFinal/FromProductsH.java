@@ -46,8 +46,7 @@ public class FromProductsH extends JFrame implements ActionListener {
 		
 		
 		this.con=con;
-		//solo la linea de arriba me llevo media hora
-		
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 500);
 		contentPane = new JPanel();

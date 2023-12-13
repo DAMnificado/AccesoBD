@@ -3,6 +3,9 @@ package practicaFinal;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 
 import javax.swing.JFrame;
@@ -39,7 +42,7 @@ public class FromConexionH extends JFrame implements ActionListener {
 			}
 		});
 	}
-
+	
 	public FromConexionH() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 500);
@@ -49,7 +52,7 @@ public class FromConexionH extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// label
+		// LABEL
 
 		JLabel lblHOST = new JLabel("host");
 		lblHOST.setBounds(86, 72, 46, 14);
@@ -67,31 +70,46 @@ public class FromConexionH extends JFrame implements ActionListener {
 		lblPASS.setBounds(87, 342, 46, 14);
 		contentPane.add(lblPASS);
 
-		// textField
-
+		// TEXTFIELD
+		
+		// HOST
 		textHOST = new JTextField();
-		textHOST.setText("localhost");
 		textHOST.setBounds(188, 68, 86, 20);
 		contentPane.add(textHOST);
 		textHOST.setColumns(10);
-
+	
+		//PUERTO
 		textPUERTO = new JTextField();
-		textPUERTO.setText("3306");
 		textPUERTO.setBounds(189, 136, 86, 20);
 		contentPane.add(textPUERTO);
 		textPUERTO.setColumns(10);
-
+		textPUERTO.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+			    char c = e.getKeyChar();
+			    
+			    if (!Character.isDigit(c) && c != '.') {
+			    	  if (c != KeyEvent.VK_BACK_SPACE) {
+			                JOptionPane.showMessageDialog(null, "Solo se permiten números");
+			                e.consume();
+			            }
+			    }
+			   
+			}
+			
+		});
+		
+		//USER
 		textUSER = new JTextField();
-		textUSER.setText("root");
 		textUSER.setBounds(182, 235, 86, 20);
 		contentPane.add(textUSER);
 		textUSER.setColumns(10);
-
+	
+		//PASS
 		textPASS = new JPasswordField();
 		textPASS.setBounds(143, 339, 42, 20);
-		contentPane.add(textPASS);
-
-		// botones
+		contentPane.add(textPASS);;
+	
+		// BOTONES
 		btnCONECTAR = new JButton("Conectar");
 		btnCONECTAR.setBounds(422, 65, 89, 23);
 		contentPane.add(btnCONECTAR);
@@ -103,43 +121,19 @@ public class FromConexionH extends JFrame implements ActionListener {
 
 		if (e.getSource() == btnCONECTAR) {
 
-			String hostP = textHOST.getText();
-
-			if (hostP.isEmpty() || !hostP.matches("^[a-zA-Z.-]+$")) {
-				JOptionPane.showMessageDialog(null, "Por favor, introduce un valor no numérico para el puerto", "Error",
-						JOptionPane.ERROR_MESSAGE);
-
-			}
-
-			String puertoP = textPUERTO.getText();
-
-			if (puertoP.isEmpty() || !puertoP.matches("\\d+")) {
-				JOptionPane.showMessageDialog(null, "Por favor, introduce un valor numérico válido para el puerto",
-						"Error", JOptionPane.ERROR_MESSAGE);
-
-			}
-
-			String userP = textUSER.getText();
-
-			if (userP.isEmpty() || !userP.matches("^[a-zA-Z0-9.-]+$")) {
-				// Mostrar un mensaje de error
-				JOptionPane.showMessageDialog(null, "Por favor, introduce un valor válido para el usuario", "Error",
-						JOptionPane.ERROR_MESSAGE);
-
-			}
-
+			
+			if (textHOST.getText().isEmpty() || textPUERTO.getText().isEmpty() || textUSER.getText().isEmpty() || new String(textPASS.getPassword()).isEmpty()) {
+	            JOptionPane.showMessageDialog(null, "Por favor introduce todos los campos");
+	            return;
+	        }
+			
+			String host = textHOST.getText();
+			String puerto = textPUERTO.getText();
+			String user = textUSER.getText();
 			char[] pswd = textPASS.getPassword();
-			String passP = new String(pswd);
+			String pass = new String(pswd);
 
-			String pass;
-			if (passP.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Por favor, introduce tu contraseña", "Error",
-						JOptionPane.ERROR_MESSAGE);
-
-			}
-
-	
-			ConexionH miConexion = new ConexionH(hostP, puertoP, userP, passP);
+			ConexionH miConexion = new ConexionH(host, puerto, user, pass);
 
 			if (miConexion.getCon() != null) {
 				dispose();
